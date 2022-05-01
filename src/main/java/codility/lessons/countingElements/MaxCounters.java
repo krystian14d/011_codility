@@ -52,12 +52,39 @@
 
 package codility.lessons.countingElements;
 
+import java.util.Arrays;
+
 public class MaxCounters {
     public static void main(String[] args) {
+        int[] A = {3,4,4,6,1,4,4};
 
+        int[] result = solution(5, A);
+
+        for (int i = 0; i < result.length; i++) {
+            System.out.println(result[i]);
+        }
     }
 
-    static int solution (int N, int[] A){
-        return 0;
+    // trainingEYU4E9-GE6
+    //Score: 77% (Correctness 100%; Performance: 60%)
+    static int[] solution(int N, int[] A) {
+
+        int[] counters = new int[N];
+        int maxCounter = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            int k = A[i];
+
+            if (k <= N) {
+                counters[k-1] = counters[k-1] + 1;
+                maxCounter = Math.max(maxCounter, counters[k-1]);
+            }
+
+            if (k == N + 1) {
+                Arrays.fill(counters, maxCounter);
+            }
+        }
+
+        return counters;
     }
 }
