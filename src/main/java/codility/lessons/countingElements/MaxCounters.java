@@ -56,13 +56,42 @@ import java.util.Arrays;
 
 public class MaxCounters {
     public static void main(String[] args) {
-        int[] A = {3,4,4,6,1,4,4};
+        int[] A = {3, 4, 4, 6, 1, 4, 4};
 
         int[] result = solution(5, A);
 
         for (int i = 0; i < result.length; i++) {
             System.out.println(result[i]);
         }
+    }
+
+    static int[] solution2(int N, int[] A) {
+
+        int[] result = new int[N];
+        int max = 0;
+        int level = 0;
+        boolean previousMax = false;
+
+        for (int i : A) {
+            if (i == N + 1) {
+                if (!previousMax) {
+                    level = level + max;
+                    max = 0;
+                    result = new int[N];
+                    previousMax = true;
+                }
+            } else {
+                result[i - 1]++;
+                max = Math.max(max, result[i - 1]);
+                previousMax = false;
+            }
+        }
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = result[i] + level;
+        }
+
+        return result;
     }
 
     // trainingEYU4E9-GE6
@@ -76,11 +105,9 @@ public class MaxCounters {
             int k = A[i];
 
             if (k <= N) {
-                counters[k-1] = counters[k-1] + 1;
-                maxCounter = Math.max(maxCounter, counters[k-1]);
-            }
-
-            if (k == N + 1) {
+                counters[k - 1] = counters[k - 1] + 1;
+                maxCounter = Math.max(maxCounter, counters[k - 1]);
+            } else if (k == N + 1) {
                 Arrays.fill(counters, maxCounter);
             }
         }
